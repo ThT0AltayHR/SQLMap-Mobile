@@ -77,7 +77,7 @@ class HttpClient {
             val elapsed = System.currentTimeMillis() - startTime
             
             val responseHeaders = mutableMapOf<String, String>()
-            for (name in response.headers.names) {
+            for (name in response.headers.names()) {
                 response.headers[name]?.let { value ->
                     responseHeaders[name] = value
                 }
@@ -134,7 +134,7 @@ class HttpClient {
             val elapsed = System.currentTimeMillis() - startTime
             
             val responseHeaders = mutableMapOf<String, String>()
-            for (name in response.headers.names) {
+            for (name in response.headers.names()) {
                 response.headers[name]?.let { value ->
                     responseHeaders[name] = value
                 }
