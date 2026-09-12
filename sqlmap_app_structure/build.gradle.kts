@@ -32,7 +32,6 @@ android {
 
     // The supplied archive is a flat source snapshot rather than a standard
     // src/main tree. Point the Android plugin at its actual source locations.
-    sourceSets["main"].java.srcDirs(".")
     sourceSets["main"].manifest.srcFile("AndroidManifest.xml")
     sourceSets["main"].res.srcDirs("src/main/res")
 
