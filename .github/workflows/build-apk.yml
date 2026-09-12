@@ -30,13 +30,13 @@ jobs:
           unzip -q "$RUNNER_TEMP/gradle.zip" -d "$RUNNER_TEMP"
           echo "$RUNNER_TEMP/gradle-8.2/bin" >> "$GITHUB_PATH"
 
-      - name: Build debug APK
+      - name: Build release APK
         working-directory: sqlmap_app_structure
-        run: gradle assembleDebug --stacktrace
+        run: gradle assembleRelease --stacktrace
 
-      - name: Upload debug APK
+      - name: Upload release APK
         uses: actions/upload-artifact@v4
         with:
-          name: SQLMap-Mobile-debug-apk
-          path: sqlmap_app_structure/build/outputs/apk/debug/*.apk
+          name: SQLMap-Mobile-release-apk
+          path: sqlmap_app_structure/build/outputs/apk/release/*.apk
           retention-days: 30

@@ -3,8 +3,9 @@ package com.sqlmap.app.sqlmap.manager
 import com.sqlmap.app.network.http.HttpClient
 import com.sqlmap.app.utils.helpers.FileHelper
 import com.sqlmap.app.utils.helpers.LoggingHelper
+import com.sqlmap.app.utils.helpers.LogLevel
 import kotlinx.coroutines.Dispatchers
-import delay
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import java.io.File
 

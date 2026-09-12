@@ -54,13 +54,38 @@ fun NavigationGraph(
         }
         
         // WAF Detection Screen
-        composable(Screen.WAFDetection.route) {
-            WAFDetectionScreen(navController)
+        composable(
+            route = "waf_detection?url={url}",
+            arguments = listOf(navArgument("url") {
+                type = NavType.StringType
+                defaultValue = ""
+            })
+        ) { backStack ->
+            WAFDetectionScreen(
+                navController = navController,
+                targetUrl = backStack.arguments?.getString("url").orEmpty()
+            )
         }
         
         // Injection Test Screen
-        composable(Screen.InjectionTest.route) {
-            InjectionTestScreen(navController)
+        composable(
+            route = "injection_test?url={url}&param={param}",
+            arguments = listOf(
+                navArgument("url") {
+                    type = NavType.StringType
+                    defaultValue = ""
+                },
+                navArgument("param") {
+                    type = NavType.StringType
+                    defaultValue = ""
+                }
+            )
+        ) { backStack ->
+            InjectionTestScreen(
+                navController = navController,
+                targetUrl = backStack.arguments?.getString("url").orEmpty(),
+                parameter = backStack.arguments?.getString("param").orEmpty()
+            )
         }
         
         // Dump Progress Screen

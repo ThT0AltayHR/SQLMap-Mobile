@@ -3,6 +3,9 @@ package com.sqlmap.app.network.http
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.logging.HttpLoggingInterceptor
 import java.util.concurrent.TimeUnit
 
@@ -55,17 +58,13 @@ class HttpClient {
             when (method.uppercase()) {
                 "GET" -> requestBuilder.get()
                 "POST" -> {
-                    val requestBody = okhttp3.RequestBody.create(
-                        okhttp3.MediaType.parse("application/x-www-form-urlencoded"),
-                        body
+                    val requestBody = body.toRequestBody(
+                        "application/x-www-form-urlencoded".toMediaType()
                     )
                     requestBuilder.post(requestBody)
                 }
                 "PUT" -> {
-                    val requestBody = okhttp3.RequestBody.create(
-                        okhttp3.MediaType.parse("application/json"),
-                        body
-                    )
+                    val requestBody = body.toRequestBody("application/json".toMediaType())
                     requestBuilder.put(requestBody)
                 }
                 "DELETE" -> requestBuilder.delete()
@@ -78,16 +77,16 @@ class HttpClient {
             val elapsed = System.currentTimeMillis() - startTime
             
             val responseHeaders = mutableMapOf<String, String>()
-            for (name in response.headers().names()) {
-                response.headers()[name]?.let { value ->
+            for (name in response.headers.names) {
+                response.headers[name]?.let { value ->
                     responseHeaders[name] = value
                 }
             }
             
             HttpResponse(
-                statusCode = response.code(),
+                statusCode = response.code,
                 headers = responseHeaders,
-                body = response.body()?.string() ?: "",
+                body = response.body?.string() ?: "",
                 requestTime = elapsed
             )
             
@@ -121,10 +120,7 @@ class HttpClient {
                 multipartBody.addFormDataPart(
                     key,
                     file.name,
-                    okhttp3.RequestBody.create(
-                        okhttp3.MediaType.parse("application/octet-stream"),
-                        file
-                    )
+                    file.asRequestBody("application/octet-stream".toMediaType())
                 )
             }
             
@@ -138,16 +134,16 @@ class HttpClient {
             val elapsed = System.currentTimeMillis() - startTime
             
             val responseHeaders = mutableMapOf<String, String>()
-            for (name in response.headers().names()) {
-                response.headers()[name]?.let { value ->
+            for (name in response.headers.names) {
+                response.headers[name]?.let { value ->
                     responseHeaders[name] = value
                 }
             }
             
             HttpResponse(
-                statusCode = response.code(),
+                statusCode = response.code,
                 headers = responseHeaders,
-                body = response.body()?.string() ?: "",
+                body = response.body?.string() ?: "",
                 requestTime = elapsed
             )
             

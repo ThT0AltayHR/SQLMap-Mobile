@@ -1,10 +1,15 @@
 package com.sqlmap.app.ui.theme
 
-import androidx.compose.foundation.isSystemInDarkMode
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Shapes
+import androidx.compose.material3.Typography
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+
+private val SQLMapTypography = Typography()
+private val SQLMapShapes = Shapes()
 
 // Siber güvenlik teması renkleri
 object CyberColors {
@@ -39,7 +44,7 @@ private val DarkColorScheme = darkColorScheme(
 
 @Composable
 fun SQLMapTheme(
-    darkTheme: Boolean = isSystemInDarkMode(),
+    darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
     val colorScheme = if (darkTheme) DarkColorScheme else DarkColorScheme

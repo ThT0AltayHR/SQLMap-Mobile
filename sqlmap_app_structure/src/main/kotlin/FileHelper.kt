@@ -10,7 +10,7 @@ import java.util.*
 
 class FileHelper(private val context: Context) {
     
-    private val appDir = context.getExternalFilesDir(null)
+    private val appDir = context.getExternalFilesDir(null) ?: context.filesDir
     private val logsDir = File(appDir, "logs")
     private val resultsDir = File(appDir, "results")
     private val configDir = File(appDir, "config")
