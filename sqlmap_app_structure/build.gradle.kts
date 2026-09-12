@@ -35,9 +35,34 @@ android {
     sourceSets["main"].manifest.srcFile("AndroidManifest.xml")
     sourceSets["main"].res.srcDirs("src/main/res")
 
+    val releaseStoreFile = providers.environmentVariable("ANDROID_KEYSTORE_FILE")
+    val releaseStorePassword = providers.environmentVariable("ANDROID_KEYSTORE_PASSWORD")
+    val releaseKeyAlias = providers.environmentVariable("ANDROID_KEY_ALIAS")
+    val releaseKeyPassword = providers.environmentVariable("ANDROID_KEY_PASSWORD")
+    val hasReleaseSigning = listOf(
+        releaseStoreFile,
+        releaseStorePassword,
+        releaseKeyAlias,
+        releaseKeyPassword
+    ).all { it.isPresent }
+
+    signingConfigs {
+        create("release") {
+            if (hasReleaseSigning) {
+                storeFile = file(releaseStoreFile.get())
+                storePassword = releaseStorePassword.get()
+                keyAlias = releaseKeyAlias.get()
+                keyPassword = releaseKeyPassword.get()
+            }
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
+            if (hasReleaseSigning) {
+                signingConfig = signingConfigs.getByName("release")
+            }
         }
         debug {
             isMinifyEnabled = false
