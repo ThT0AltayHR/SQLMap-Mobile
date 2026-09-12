@@ -3,7 +3,6 @@ plugins {
     kotlin("android")
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
-    id("com.google.devtools.ksp")
 }
 
 android {
@@ -29,16 +28,13 @@ android {
             abiFilters.add("x86_64")
         }
 
-        // Python support via Chaquopy
-        python {
-            version = "3.9"
-            pip {
-                install("requests")
-                install("paramiko")
-                install("pycryptodome")
-            }
-        }
     }
+
+    // The supplied archive is a flat source snapshot rather than a standard
+    // src/main tree. Point the Android plugin at its actual source locations.
+    sourceSets["main"].java.srcDirs(".")
+    sourceSets["main"].manifest.srcFile("AndroidManifest.xml")
+    sourceSets["main"].res.srcDirs("src/main/res")
 
     buildTypes {
         release {
@@ -142,9 +138,6 @@ dependencies {
     
     // Security
     implementation("androidx.security:security-crypto:1.1.0-alpha06")
-    
-    // Python Support
-    implementation("com.chaquo.python:python:3.9")
     
     // Testing
     testImplementation("junit:junit:4.13.2")
